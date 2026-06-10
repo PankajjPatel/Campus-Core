@@ -124,6 +124,23 @@ class CampusLoginView(LoginView):
     template_name = 'core/login.html'
     redirect_authenticated_user = True
 
+    def form_valid(self, form):
+        user = form.get_user()
+        role = self.request.POST.get('role', 'student')
+        
+        # Check role compatibility
+        if role == 'admin' and not user.is_superuser:
+            form.add_error(None, "This account does not have Administrator privileges.")
+            return self.form_invalid(form)
+        elif role == 'staff' and not hasattr(user, 'teacher_profile'):
+            form.add_error(None, "This account does not have Staff/Teacher privileges.")
+            return self.form_invalid(form)
+        elif role == 'student' and not hasattr(user, 'student_profile'):
+            form.add_error(None, "This account does not have Student privileges.")
+            return self.form_invalid(form)
+            
+        return super().form_valid(form)
+
 
 class CampusLogoutView(View):
     def get(self, request, *args, **kwargs):

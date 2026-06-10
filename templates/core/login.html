@@ -10,21 +10,24 @@
             <div class="inline-flex bg-gradient-to-tr from-indigo-600 to-violet-600 text-white p-3.5 rounded-2xl shadow-lg shadow-indigo-500/10 mb-4">
                 <i data-lucide="shield-check" class="w-8 h-8"></i>
             </div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-955 dark:text-white">
                 Welcome to CampusCore
             </h2>
             <p class="mt-2.5 text-sm text-zinc-500 dark:text-zinc-400">
-                Staff Authentication Portal
+                Campus Authentication Portal
             </p>
         </div>
 
         <!-- Form errors -->
         {% if form.errors %}
-        <div class="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 text-red-800 dark:text-red-400 p-4 rounded-xl text-sm flex gap-3">
+        <div class="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 text-red-800 dark:text-red-400 p-4 rounded-xl text-sm flex gap-3 animate-fade-in">
             <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0"></i>
             <div>
-                <p class="font-semibold">Invalid username or password.</p>
-                <p class="text-xs mt-0.5">Please check credentials and try again.</p>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <p class="font-semibold">{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
             </div>
         </div>
         {% endif %}
@@ -33,10 +36,29 @@
         <form class="mt-6 space-y-6" method="POST" action="{% url 'login' %}">
             {% csrf_token %}
             
+            <!-- Hidden role input -->
+            <input type="hidden" name="role" id="selected-role" value="{% if request.POST.role %}{{ request.POST.role }}{% else %}student{% endif %}">
+
+            <!-- Role Selector Tabs -->
+            <div class="grid grid-cols-3 gap-2 p-1.5 bg-zinc-100 dark:bg-zinc-800/60 rounded-xl mb-6">
+                <button type="button" id="tab-student" class="role-tab flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg text-xs font-bold transition duration-200 cursor-pointer">
+                    <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                    <span>Student</span>
+                </button>
+                <button type="button" id="tab-staff" class="role-tab flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg text-xs font-bold transition duration-200 cursor-pointer">
+                    <i data-lucide="user-cog" class="w-4 h-4"></i>
+                    <span>Staff</span>
+                </button>
+                <button type="button" id="tab-admin" class="role-tab flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg text-xs font-bold transition duration-200 cursor-pointer">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    <span>Admin</span>
+                </button>
+            </div>
+
             <div class="space-y-4">
                 <!-- Username -->
                 <div>
-                    <label for="id_username" class="block text-sm font-semibold text-zinc-700 dark:text-zinc-350">Username</label>
+                    <label id="username-label" for="id_username" class="block text-sm font-semibold text-zinc-700 dark:text-zinc-350">Username</label>
                     <div class="mt-1.5 relative">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400 dark:text-zinc-500">
                             <i data-lucide="user" class="w-4 h-4"></i>
@@ -97,6 +119,53 @@
                 }
             });
         }
+
+        // Role tab selection script
+        const tabs = {
+            student: document.getElementById('tab-student'),
+            staff: document.getElementById('tab-staff'),
+            admin: document.getElementById('tab-admin')
+        };
+        const roleInput = document.getElementById('selected-role');
+        const usernameLabel = document.getElementById('username-label');
+        const usernameInput = document.getElementById('id_username');
+
+        function setRole(role) {
+            roleInput.value = role;
+            
+            // Set styles for all tabs
+            Object.keys(tabs).forEach(key => {
+                const tab = tabs[key];
+                if (key === role) {
+                    // Active style
+                    tab.className = "role-tab flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg text-xs font-extrabold bg-white dark:bg-zinc-700 text-indigo-600 dark:text-white shadow-sm border border-zinc-200 dark:border-zinc-700 transition duration-200 cursor-pointer";
+                } else {
+                    // Inactive style
+                    tab.className = "role-tab flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg text-xs font-bold text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition duration-200 cursor-pointer border border-transparent";
+                }
+            });
+
+            // Set input placeholder & label
+            if (role === 'student') {
+                usernameLabel.textContent = "Roll Number";
+                usernameInput.placeholder = "Enter roll number (e.g., CSE001)";
+            } else if (role === 'staff') {
+                usernameLabel.textContent = "Username";
+                usernameInput.placeholder = "Enter staff username";
+            } else if (role === 'admin') {
+                usernameLabel.textContent = "Admin Username";
+                usernameInput.placeholder = "Enter admin username";
+            }
+        }
+
+        // Add event listeners
+        Object.keys(tabs).forEach(key => {
+            tabs[key].addEventListener('click', () => setRole(key));
+        });
+
+        // Initialize role
+        const initialRole = roleInput.value || 'student';
+        setRole(initialRole);
     });
 </script>
 {% endblock %}
