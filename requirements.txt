@@ -1,0 +1,6 @@
+django>=6.0
+pymysql
+openpyxl
+reportlab
+gunicorn
+whitenoise
