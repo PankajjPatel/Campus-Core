@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Confirm Delete - CampusCore{% endblock %}
+
+{% block content %}
+<div class="min-h-[50vh] flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 bg-white dark:bg-zinc-900 p-8 sm:p-10 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xl text-center">
+        
+        <div class="inline-flex bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 p-4 rounded-2xl mb-4">
+            <i data-lucide="alert-triangle" class="w-10 h-10 animate-pulse"></i>
+        </div>
+        
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-zinc-950 dark:text-white">
+            Are you absolutely sure?
+        </h2>
+        <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+            This action cannot be undone. You are about to permanently delete the selected record from the system.
+        </p>
+
+        <form method="POST" class="mt-8 flex gap-4 justify-center">
+            {% csrf_token %}
+            <a href="{{ request.META.HTTP_REFERER|default:'/dashboard/' }}" class="px-5 py-2.5 rounded-xl text-sm font-semibold border border-zinc-200 dark:border-zinc-850 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 transition duration-150">
+                Cancel, Go Back
+            </a>
+            <button type="submit" class="px-6 py-2.5 bg-red-600 hover:bg-red-750 text-white rounded-xl text-sm font-bold shadow-lg shadow-red-500/10 transition duration-150 cursor-pointer">
+                Confirm, Delete Record
+            </button>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

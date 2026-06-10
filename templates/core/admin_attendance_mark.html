@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}Mark Attendance - CampusCore{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+    <div class="flex items-center justify-between">
+        <a href="{% url 'admin_attendance_list' %}" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-indigo-600 font-semibold transition duration-150">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>Back to Logs</span>
+        </a>
+        <h1 class="text-xl font-bold text-zinc-900 dark:text-white">Daily Attendance Entry</h1>
+    </div>
+
+    <!-- Configuration selector -->
+    <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm">
+        <form method="GET" class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+            <div class="space-y-1.5">
+                <label class="block text-xs font-bold text-zinc-400 uppercase">Select Subject</label>
+                <select name="subject" required class="w-full px-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:ring-indigo-600 cursor-pointer">
+                    <option value="">-- Choose Subject --</option>
+                    {% for sub in subjects %}
+                    <option value="{{ sub.id }}" {% if selected_subject.id == sub.id %}selected{% endif %}>{{ sub.name }} ({{ sub.course.code }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="space-y-1.5">
+                <label class="block text-xs font-bold text-zinc-400 uppercase">Date of Record</label>
+                <input type="date" name="date" value="{{ date }}" class="w-full px-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:ring-indigo-600">
+            </div>
+
+            <button type="submit" class="w-full py-2 bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 rounded-xl text-sm font-bold hover:bg-zinc-850 transition duration-150 cursor-pointer">
+                Load Student Sheet
+            </button>
+        </form>
+    </div>
+
+    <!-- Student Sheet Form -->
+    {% if selected_subject %}
+    <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm overflow-hidden">
+        <div class="p-6 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center bg-zinc-50/50 dark:bg-zinc-950/20">
+            <div>
+                <h3 class="text-base font-bold text-zinc-950 dark:text-white">{{ selected_subject.name }}</h3>
+                <p class="text-xs text-zinc-400 font-mono mt-0.5">Date: {{ date }} &bull; Class Size: {{ students.count }}</p>
+            </div>
+            
+            <!-- Quick select toggler buttons (Javascript helper) -->
+            <div class="flex gap-2">
+                <button type="button" onclick="setAllAttendance('Present')" class="px-3 py-1.5 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/20 dark:text-emerald-400 hover:bg-emerald-100 transition duration-150 cursor-pointer">
+                    All Present
+                </button>
+                <button type="button" onclick="setAllAttendance('Absent')" class="px-3 py-1.5 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs font-semibold text-red-600 bg-red-50 dark:bg-red-950/20 dark:text-red-400 hover:bg-red-100 transition duration-150 cursor-pointer">
+                    All Absent
+                </button>
+            </div>
+        </div>
+
+        <form method="POST" class="divide-y divide-zinc-200 dark:divide-zinc-850">
+            {% csrf_token %}
+            <input type="hidden" name="subject_id" value="{{ selected_subject.id }}">
+            <input type="hidden" name="date" value="{{ date }}">
+
+            <div class="max-h-[450px] overflow-y-auto custom-scrollbar">
+                {% if students %}
+                    {% for student in students %}
+                    <div class="px-6 py-4 flex items-center justify-between hover:bg-zinc-50/30 dark:hover:bg-zinc-850/10 transition duration-150">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-mono font-bold text-zinc-400 w-12">{{ forloop.counter }}</span>
+                            <div>
+                                <p class="font-bold text-zinc-900 dark:text-white">{{ student.full_name }}</p>
+                                <p class="text-xs text-zinc-400 font-mono">Roll: {{ student.roll_number }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Checkboxes / Radio controls -->
+                        <div class="flex items-center gap-6">
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input type="radio" name="status_{{ student.id }}" value="Present" 
+                                    class="status-radio-present h-5.5 w-5.5 text-emerald-600 border-zinc-300 focus:ring-emerald-500 rounded-full cursor-pointer"
+                                    {% if student.existing_status == 'Present' %}checked{% endif %}>
+                                <span class="text-sm font-semibold text-zinc-500 group-hover:text-emerald-600 transition duration-150">Present</span>
+                            </label>
+                            
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input type="radio" name="status_{{ student.id }}" value="Absent" 
+                                    class="status-radio-absent h-5.5 w-5.5 text-red-600 border-zinc-300 focus:ring-red-500 rounded-full cursor-pointer"
+                                    {% if student.existing_status == 'Absent' %}checked{% endif %}>
+                                <span class="text-sm font-semibold text-zinc-500 group-hover:text-red-500 transition duration-150">Absent</span>
+                            </label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-center text-zinc-400 py-12 italic">No students registered in this subject's course.</p>
+                {% endif %}
+            </div>
+
+            <!-- Submit footer -->
+            <div class="px-6 py-4 bg-zinc-50 dark:bg-zinc-950 flex items-center justify-end gap-3">
+                <a href="{% url 'admin_attendance_list' %}" class="px-5 py-2 rounded-xl text-xs font-semibold border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 text-zinc-700 dark:text-zinc-350">
+                    Cancel
+                </a>
+                <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-700 text-white rounded-xl text-xs font-bold shadow hover:shadow-violet-600/10 active:scale-[0.98] transition duration-200 cursor-pointer">
+                    Submit Attendance Sheet
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        function setAllAttendance(status) {
+            const radioClass = status === 'Present' ? '.status-radio-present' : '.status-radio-absent';
+            const radios = document.querySelectorAll(radioClass);
+            radios.forEach(radio => {
+                radio.checked = true;
+            });
+        }
+    </script>
+    {% endif %}
+</div>
+{% endblock %}

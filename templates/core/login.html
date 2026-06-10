@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Sign In - CampusCore{% endblock %}
+
+{% block content %}
+<div class="min-h-[70vh] flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8 animate-fade-in">
+    <div class="max-w-md w-full space-y-8 bg-white dark:bg-zinc-900 p-8 sm:p-10 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xl transition-all duration-300">
+        
+        <!-- Heading Header -->
+        <div class="text-center">
+            <div class="inline-flex bg-gradient-to-tr from-indigo-600 to-violet-600 text-white p-3.5 rounded-2xl shadow-lg shadow-indigo-500/10 mb-4">
+                <i data-lucide="shield-check" class="w-8 h-8"></i>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-950 dark:text-white">
+                Welcome to CampusCore
+            </h2>
+            <p class="mt-2.5 text-sm text-zinc-500 dark:text-zinc-400">
+                Staff Authentication Portal
+            </p>
+        </div>
+
+        <!-- Form errors -->
+        {% if form.errors %}
+        <div class="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 text-red-800 dark:text-red-400 p-4 rounded-xl text-sm flex gap-3">
+            <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0"></i>
+            <div>
+                <p class="font-semibold">Invalid username or password.</p>
+                <p class="text-xs mt-0.5">Please check credentials and try again.</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Form fields -->
+        <form class="mt-6 space-y-6" method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            
+            <div class="space-y-4">
+                <!-- Username -->
+                <div>
+                    <label for="id_username" class="block text-sm font-semibold text-zinc-700 dark:text-zinc-350">Username</label>
+                    <div class="mt-1.5 relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400 dark:text-zinc-500">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </div>
+                        <input id="id_username" name="username" type="text" required class="block w-full pl-10 pr-4 py-2.5 sm:py-3 border border-zinc-300 dark:border-zinc-700 rounded-xl bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-650 focus:border-indigo-650 transition duration-200" placeholder="Enter username">
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <div class="flex items-center justify-between">
+                        <label for="id_password" class="block text-sm font-semibold text-zinc-700 dark:text-zinc-350">Password</label>
+                    </div>
+                    <div class="mt-1.5 relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400 dark:text-zinc-500">
+                            <i data-lucide="lock" class="w-4 h-4"></i>
+                        </div>
+                        <input id="id_password" name="password" type="password" required class="block w-full pl-10 pr-10 py-2.5 sm:py-3 border border-zinc-300 dark:border-zinc-700 rounded-xl bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-650 focus:border-indigo-650 transition duration-200" placeholder="••••••••">
+                        <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-400 dark:text-zinc-500 hover:text-zinc-650 dark:hover:text-zinc-300 focus:outline-none">
+                            <i data-lucide="eye" class="w-4 h-4" id="eye-icon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl text-sm font-bold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-650 transition duration-200 cursor-pointer">
+                    Sign In to Dashboard
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleBtn = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('id_password');
+        const eyeIcon = document.getElementById('eye-icon');
+        
+        if (toggleBtn && passwordInput && eyeIcon) {
+            toggleBtn.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                // Toggle the icon
+                if (type === 'text') {
+                    eyeIcon.setAttribute('data-lucide', 'eye-off');
+                } else {
+                    eyeIcon.setAttribute('data-lucide', 'eye');
+                }
+                
+                // Re-render lucide icon
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}CampusCore - The Core of Campus Management ⭐{% endblock %}
+
+{% block content %}
+<div class="space-y-12">
+    <!-- Hero / Banner Section -->
+    <div class="relative rounded-3xl overflow-hidden bg-gradient-to-tr from-slate-900 via-zinc-900 to-indigo-950 text-white p-8 sm:p-12 md:p-16 border border-zinc-800 shadow-2xl animate-fade-in">
+        <!-- Abstract gradient circles -->
+        <div class="absolute -right-16 -top-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute right-1/4 -bottom-16 w-80 h-80 bg-violet-600/10 rounded-full blur-3xl"></div>
+
+        <div class="relative max-w-3xl space-y-6">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                Introducing CampusCore
+            </span>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
+                CampusCore
+            </h1>
+            <p class="text-lg sm:text-xl font-medium text-indigo-400">
+                The Core of Campus Management ⭐
+            </p>
+            <p class="text-base sm:text-lg text-zinc-300 leading-relaxed font-light">
+                Empowering educational institutions with seamless administration, unified workflows, and modern analytics in a single secure workspace.
+            </p>
+            
+            <!-- Student Portal Authentication Action -->
+            <div class="pt-4 flex flex-wrap gap-4">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard_router' %}" class="flex items-center gap-2 px-6 py-3.5 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98] transition duration-200">
+                        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                        <span>Go to My Dashboard</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="flex items-center gap-2 px-6 py-3.5 rounded-2xl text-sm font-bold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98] transition duration-200">
+                        <i data-lucide="log-in" class="w-4 h-4"></i>
+                        <span>Login to Student Portal</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Notices & Announcements Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Announcements Column -->
+        <div class="lg:col-span-2 space-y-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <i data-lucide="megaphone" class="w-6 h-6 text-indigo-600 dark:text-indigo-400"></i>
+                    <h2 class="text-2xl font-bold text-zinc-900 dark:text-white">Active Announcements</h2>
+                </div>
+                <span class="text-xs text-zinc-550 dark:text-zinc-400 font-medium">Showing latest bulletins</span>
+            </div>
+            
+            <div class="space-y-4">
+                {% if notices %}
+                    {% for notice in notices %}
+                    <div class="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition duration-200">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="space-y-2">
+                                <span class="inline-block px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-650 dark:text-zinc-400">
+                                    {% if notice.subject %}{{ notice.subject.name }}{% else %}General{% endif %}
+                                </span>
+                                <h3 class="text-lg font-bold text-zinc-950 dark:text-white">{{ notice.title }}</h3>
+                                <p class="text-zinc-600 dark:text-zinc-350 text-sm leading-relaxed">{{ notice.content }}</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800/60 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
+                            <span class="flex items-center gap-1.5">
+                                <i data-lucide="user" class="w-3.5 h-3.5 text-zinc-400"></i>
+                                Posted by: {% if notice.created_by.is_superuser %}Administrator{% else %}{{ notice.created_by.get_full_name }}{% endif %}
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <i data-lucide="calendar" class="w-3.5 h-3.5 text-zinc-400"></i>
+                                {{ notice.created_at|date:"M d, Y, h:i A" }}
+                            </span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-12 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+                        <i data-lucide="inbox" class="w-12 h-12 text-zinc-400 mx-auto mb-3"></i>
+                        <p class="font-bold text-zinc-700 dark:text-zinc-350">No announcements yet</p>
+                        <p class="text-zinc-500 dark:text-zinc-400 text-sm mt-1">Check back later for school updates.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Academic Offerings / Info Section -->
+        <div class="space-y-6">
+            <div class="flex items-center gap-2.5">
+                <i data-lucide="award" class="w-6 h-6 text-indigo-650 dark:text-indigo-400"></i>
+                <h2 class="text-2xl font-bold text-zinc-900 dark:text-white">Our Courses</h2>
+            </div>
+
+            <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm space-y-4">
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                    CampusCore manages academic timetables and registers students across the following degrees:
+                </p>
+                
+                <div class="space-y-3">
+                    {% if courses %}
+                        {% for course in courses %}
+                        <div class="flex items-center gap-3 p-3 rounded-xl border border-zinc-100 dark:border-zinc-850 hover:border-indigo-500/30 transition duration-200 bg-zinc-50/50 dark:bg-zinc-950/20">
+                            <div class="bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 p-2.5 rounded-lg">
+                                <i data-lucide="book" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-zinc-900 dark:text-white">{{ course.name }}</h4>
+                                <p class="text-xs text-zinc-500 dark:text-zinc-400 font-mono">{{ course.code }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-xs text-zinc-450 dark:text-zinc-500 italic">No courses registered yet in settings.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

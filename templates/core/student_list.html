@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %}Manage Students - CampusCore{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Top Action bar -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-extrabold text-zinc-950 dark:text-white">Student Enrollment Directory</h1>
+            <p class="text-xs text-zinc-400">Total: {{ page_obj.paginator.count }} students enrolled</p>
+        </div>
+        <a href="{% url 'admin_student_add' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-700 text-white rounded-xl font-bold text-sm shadow hover:shadow-violet-600/10 active:scale-[0.98] transition duration-200">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Register Student</span>
+        </a>
+    </div>
+
+    <!-- Search / Filter toolbar -->
+    <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-2xl shadow-sm flex flex-col md:flex-row gap-4 justify-between items-center">
+        <form method="GET" class="w-full md:w-auto flex flex-col sm:flex-row gap-3 flex-1">
+            <div class="relative flex-1 max-w-md">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400">
+                    <i data-lucide="search" class="w-4 h-4"></i>
+                </div>
+                <input type="text" name="search" value="{{ request.GET.search }}" class="w-full pl-10 pr-4 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Search by name, roll, or email...">
+            </div>
+            
+            <div class="w-full sm:w-48">
+                <select name="course" onchange="this.form.submit()" class="w-full px-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 cursor-pointer">
+                    <option value="">All Courses</option>
+                    {% for course in courses %}
+                    <option value="{{ course.id }}" {% if request.GET.course == course.id|stringformat:"i" %}selected{% endif %}>{{ course.code }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <button type="submit" class="px-4 py-2 bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 font-semibold rounded-xl text-sm hover:bg-zinc-850 transition duration-150">
+                Apply Filter
+            </button>
+            {% if request.GET.search or request.GET.course %}
+            <a href="{% url 'admin_student_list' %}" class="px-4 py-2 border border-zinc-200 dark:border-zinc-850 hover:bg-zinc-50 dark:hover:bg-zinc-850 rounded-xl text-sm text-zinc-500 transition duration-150 text-center">
+                Clear Filters
+            </a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Data Table Card -->
+    <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-zinc-50 dark:bg-zinc-950 text-xs font-semibold text-zinc-500 uppercase border-b border-zinc-200 dark:border-zinc-800">
+                        <th class="px-6 py-4">Student Name</th>
+                        <th class="px-6 py-4">Roll Number</th>
+                        <th class="px-6 py-4">Enrolled Course</th>
+                        <th class="px-6 py-4">Contact Details</th>
+                        <th class="px-6 py-4 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-200 dark:divide-zinc-850 text-sm text-zinc-700 dark:text-zinc-350">
+                    {% if students %}
+                        {% for student in students %}
+                        <tr class="hover:bg-zinc-50/50 dark:hover:bg-zinc-850/10 transition duration-150">
+                            <!-- Name with Pic -->
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl overflow-hidden bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center flex-shrink-0">
+                                        {% if student.profile_pic %}
+                                            <img src="{{ student.profile_pic.url }}" alt="{{ student.full_name }}" class="w-full h-full object-cover">
+                                        {% else %}
+                                            <i data-lucide="user" class="w-5 h-5 text-zinc-400"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-zinc-900 dark:text-white">{{ student.full_name }}</p>
+                                        <span class="text-xs text-zinc-400 capitalize">{{ student.gender }} &bull; {{ student.dob|date:"M d, Y" }}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 font-mono font-semibold text-zinc-900 dark:text-white">{{ student.roll_number }}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-0.5 text-xs font-bold text-indigo-750 bg-indigo-50 dark:bg-indigo-950/30 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-900/30 rounded">
+                                    {{ student.course.code }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-xs space-y-0.5">
+                                <p class="flex items-center gap-1.5"><i data-lucide="mail" class="w-3.5 h-3.5 text-zinc-400"></i>{{ student.email }}</p>
+                                <p class="flex items-center gap-1.5"><i data-lucide="phone" class="w-3.5 h-3.5 text-zinc-400"></i>{{ student.phone }}</p>
+                            </td>
+                            <!-- Actions -->
+                            <td class="px-6 py-4 text-center">
+                                <div class="flex items-center justify-center gap-2">
+                                    <a href="{% url 'export_student_pdf' student.id %}" title="Download Report Card PDF" class="p-2 border border-zinc-200 dark:border-zinc-800 hover:border-indigo-600/30 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 text-indigo-750 rounded-lg transition duration-150">
+                                        <i data-lucide="file-down" class="w-4 h-4"></i>
+                                    </a>
+                                    <a href="{% url 'admin_student_edit' student.id %}" title="Edit Profile" class="p-2 border border-zinc-200 dark:border-zinc-800 hover:border-indigo-500/30 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 rounded-lg transition duration-150">
+                                        <i data-lucide="edit-3" class="w-4 h-4"></i>
+                                    </a>
+                                    
+                                    <form method="POST" action="{% url 'admin_student_delete' student.id %}" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this student?')">
+                                        {% csrf_token %}
+                                        <button type="submit" title="Delete Profile" class="p-2 border border-zinc-200 dark:border-zinc-800 hover:border-red-500/30 hover:bg-red-50 dark:hover:bg-red-950/20 text-red-500 rounded-lg transition duration-150 cursor-pointer">
+                                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center text-zinc-400 dark:text-zinc-500 italic">
+                                No student registrations found.
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <div class="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between text-sm">
+            <span class="text-zinc-500">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            <div class="flex items-center gap-1.5">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.course %}&course={{ request.GET.course }}{% endif %}" class="px-3.5 py-1.5 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:bg-zinc-55 hover:dark:bg-zinc-800 transition duration-150">Previous</a>
+                {% endif %}
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.course %}&course={{ request.GET.course }}{% endif %}" class="px-3.5 py-1.5 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:bg-zinc-55 hover:dark:bg-zinc-800 transition duration-150">Next</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

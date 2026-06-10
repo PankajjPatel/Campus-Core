@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CampusCore{% endblock %} - The Core of Campus Management</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        zinc: {
+                            955: '#09090b',
+                            850: '#202024',
+                            855: '#1a1a1e',
+                            805: '#222227',
+                            755: '#33333b',
+                            650: '#4c4c56',
+                            555: '#6b6b76',
+                            550: '#71717a',
+                            450: '#a1a1aa',
+                            355: '#d4d4d8',
+                        },
+                        indigo: {
+                            755: '#3b2fc9',
+                            650: '#4f46e5',
+                            550: '#6366f1',
+                            650: '#4f46e5',
+                        },
+                        red: {
+                            650: '#dc2626',
+                            755: '#b91c1c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Prevent theme flash -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-zinc-50 text-zinc-900 dark:bg-zinc-955 dark:text-zinc-50 min-h-screen flex flex-col transition-colors duration-200 font-sans">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-40 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-805 transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand Logo -->
+                <div class="flex items-center gap-2">
+                    <a href="{% if user.is_authenticated %}{% url 'dashboard_router' %}{% else %}{% url 'public_portal' %}{% endif %}" class="flex items-center gap-2.5">
+                        <div class="bg-gradient-to-tr from-indigo-600 to-violet-600 text-white p-2 rounded-xl shadow-md shadow-indigo-500/20">
+                            <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-extrabold text-xl tracking-tight bg-gradient-to-r from-zinc-950 to-zinc-700 dark:from-white dark:to-zinc-300 bg-clip-text text-transparent">CampusCore</span>
+                            <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold tracking-wider uppercase">The Core of Campus Management ⭐</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Right Nav Elements -->
+                <div class="flex items-center gap-4">
+                    <!-- Light / Dark Mode Toggle Button -->
+                    <button id="theme-toggle" class="p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-850 text-zinc-600 dark:text-zinc-300 transition duration-200" aria-label="Toggle Theme">
+                        <i id="theme-toggle-light-icon" data-lucide="sun" class="w-5 h-5 hidden"></i>
+                        <i id="theme-toggle-dark-icon" data-lucide="moon" class="w-5 h-5 hidden"></i>
+                    </button>
+
+                    {% if user.is_authenticated %}
+                    <!-- User Dropdown Details -->
+                    <div class="flex items-center gap-3 pl-4 border-l border-zinc-200 dark:border-zinc-800">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                                {% if user.is_superuser %}Admin{% else %}{{ user.get_full_name }}{% endif %}
+                            </p>
+                            <p class="text-[11px] text-zinc-500 dark:text-zinc-400">
+                                {% if user.is_superuser %}Super Administrator{% elif user.teacher_profile %}Teacher Faculty{% elif user.student_profile %}Student ({{ user.student_profile.roll_number }}){% else %}User{% endif %}
+                            </p>
+                        </div>
+                        <a href="{% url 'logout' %}" class="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold text-red-650 dark:text-red-400 border border-red-200 dark:border-red-900/30 hover:bg-red-50 dark:hover:bg-red-950/20 transition duration-200">
+                            <i data-lucide="log-out" class="w-4 h-4"></i>
+                            <span class="hidden md:inline">Logout</span>
+                        </a>
+                    </div>
+                    {% else %}
+                    <!-- Login Button -->
+                    <a href="{% url 'login' %}" class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98] transition duration-200">
+                        <i data-lucide="log-in" class="w-4 h-4"></i>
+                        <span>Portal Login</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="flex-1 flex max-w-8xl w-full mx-auto">
+        <!-- Sidebar Navigation -->
+        {% if user.is_authenticated %}
+        <aside class="w-64 border-r border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 p-5 hidden lg:block transition-colors duration-200">
+            <div class="flex flex-col h-full justify-between">
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="px-3 text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Main Menu</h3>
+                        <div class="mt-2 space-y-1">
+                            {% if user.is_superuser %}
+                            <!-- Admin Links -->
+                            <a href="{% url 'admin_dashboard' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if request.resolver_match.url_name == 'admin_dashboard' %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                                <span>Dashboard</span>
+                            </a>
+                            <a href="{% url 'admin_student_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'student' in request.path %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="users" class="w-4 h-4"></i>
+                                <span>Students</span>
+                            </a>
+                            <a href="{% url 'admin_teacher_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'teacher' in request.path %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="user-cog" class="w-4 h-4"></i>
+                                <span>Teachers</span>
+                            </a>
+                            <a href="{% url 'admin_course_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'course' in request.path %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="book-open" class="w-4 h-4"></i>
+                                <span>Courses</span>
+                            </a>
+                            <a href="{% url 'admin_subject_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'subject' in request.path %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="book-marked" class="w-4 h-4"></i>
+                                <span>Subjects</span>
+                            </a>
+                            {% elif user.teacher_profile %}
+                            <!-- Teacher Links -->
+                            <a href="{% url 'teacher_dashboard' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if request.resolver_match.url_name == 'teacher_dashboard' %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                                <span>Dashboard</span>
+                            </a>
+                            <a href="{% url 'teacher_subject_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'subject' in request.path %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="book-marked" class="w-4 h-4"></i>
+                                <span>My Subjects</span>
+                            </a>
+                            <a href="{% url 'teacher_student_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'student' in request.path %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="users" class="w-4 h-4"></i>
+                                <span>Students Profile</span>
+                            </a>
+                            {% elif user.student_profile %}
+                            <!-- Student Links -->
+                            <a href="{% url 'student_dashboard' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if request.resolver_match.url_name == 'student_dashboard' %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                                <span>My Dashboard</span>
+                            </a>
+                            <a href="{% url 'password_change' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if request.resolver_match.url_name == 'password_change' %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="key" class="w-4 h-4"></i>
+                                <span>Change Password</span>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if user.is_superuser or user.teacher_profile %}
+                    <div>
+                        <h3 class="px-3 text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Operations</h3>
+                        <div class="mt-2 space-y-1">
+                            {% if user.is_superuser %}
+                            <a href="{% url 'admin_attendance_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'attendance' in request.path %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="calendar-check" class="w-4 h-4"></i>
+                                <span>Manage Attendance</span>
+                            </a>
+                            <a href="{% url 'admin_result_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'result' in request.path %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+                                <span>Manage Results</span>
+                            </a>
+                            <a href="{% url 'admin_fee_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'fee' in request.path %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="indian-rupee" class="w-4 h-4"></i>
+                                <span>Fees Collection</span>
+                            </a>
+                            <a href="{% url 'admin_timetable_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'timetable' in request.path %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="calendar-days" class="w-4 h-4"></i>
+                                <span>Timetables</span>
+                            </a>
+                            <a href="{% url 'admin_notice_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'notice' in request.path %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="megaphone" class="w-4 h-4"></i>
+                                <span>Announcements</span>
+                            </a>
+                            <a href="{% url 'admin_reports' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'reports' in request.path %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="file-text" class="w-4 h-4"></i>
+                                <span>Reports & Exports</span>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'teacher_notice_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'notice' in request.path %}bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 font-semibold{% endif %} transition duration-150">
+                                <i data-lucide="megaphone" class="w-4 h-4"></i>
+                                <span>My Announcements</span>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Footer sidebar info -->
+                <div class="pt-4 border-t border-zinc-200 dark:border-zinc-800 text-xs text-zinc-400 dark:text-zinc-505">
+                    <p class="font-semibold text-zinc-500 dark:text-zinc-400">CampusCore v1.0</p>
+                    <p>&copy; 2026 Admin Panel</p>
+                </div>
+            </div>
+        </aside>
+        {% endif %}
+
+        <!-- Content Area -->
+        <main class="flex-1 px-4 py-8 sm:px-6 lg:px-8 overflow-x-hidden">
+            <!-- Breadcrumbs -->
+            {% block breadcrumbs %}{% endblock %}
+
+            <!-- Message Alerts -->
+            {% if messages %}
+            <div class="mb-6 space-y-2">
+                {% for message in messages %}
+                <div class="flex items-center justify-between p-4 rounded-xl text-sm border {% if message.tags == 'error' %}bg-red-50 text-red-800 border-red-200 dark:bg-red-950/20 dark:text-red-400 dark:border-red-900/30{% elif message.tags == 'warning' %}bg-yellow-50 text-yellow-800 border-yellow-200 dark:bg-yellow-950/20 dark:text-yellow-400 dark:border-yellow-900/30{% else %}bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900/30{% endif %} animate-fade-in transition duration-300">
+                    <div class="flex items-center gap-3">
+                        {% if message.tags == 'error' %}
+                        <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0"></i>
+                        {% elif message.tags == 'warning' %}
+                        <i data-lucide="alert-triangle" class="w-5 h-5 flex-shrink-0"></i>
+                        {% else %}
+                        <i data-lucide="check-circle" class="w-5 h-5 flex-shrink-0"></i>
+                        {% endif %}
+                        <span>{{ message }}</span>
+                    </div>
+                    <button class="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200" onclick="this.parentElement.remove()">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Page Content Block -->
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    {% if user.is_authenticated %}
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-around py-3 px-2 shadow-2xl transition duration-200">
+        {% if user.is_superuser %}
+        <a href="{% url 'admin_dashboard' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-indigo-600">
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+            <span class="text-[10px]">Dashboard</span>
+        </a>
+        <a href="{% url 'admin_student_list' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-indigo-600">
+            <i data-lucide="users" class="w-5 h-5"></i>
+            <span class="text-[10px]">Students</span>
+        </a>
+        <a href="{% url 'admin_attendance_list' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-indigo-600">
+            <i data-lucide="calendar-check" class="w-5 h-5"></i>
+            <span class="text-[10px]">Attendance</span>
+        </a>
+        <a href="{% url 'admin_reports' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-indigo-600">
+            <i data-lucide="file-text" class="w-5 h-5"></i>
+            <span class="text-[10px]">Reports</span>
+        </a>
+        {% elif user.teacher_profile %}
+        <a href="{% url 'teacher_dashboard' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-indigo-600">
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+            <span class="text-[10px]">Dashboard</span>
+        </a>
+        <a href="{% url 'teacher_subject_list' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-indigo-600">
+            <i data-lucide="book-marked" class="w-5 h-5"></i>
+            <span class="text-[10px]">Subjects</span>
+        </a>
+        <a href="{% url 'teacher_student_list' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-indigo-600">
+            <i data-lucide="users" class="w-5 h-5"></i>
+            <span class="text-[10px]">Students</span>
+        </a>
+        {% elif user.student_profile %}
+        <a href="{% url 'student_dashboard' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-indigo-600">
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+            <span class="text-[10px]">Dashboard</span>
+        </a>
+        <a href="{% url 'password_change' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-indigo-600">
+            <i data-lucide="key" class="w-5 h-5"></i>
+            <span class="text-[10px]">Password</span>
+        </a>
+        {% endif %}
+    </div>
+    <!-- Padding bottom for mobile view navigation overlap -->
+    <div class="h-16 lg:hidden"></div>
+    {% endif %}
+
+    <!-- Lucide icons activator -->
+    <script>
+        lucide.createIcons();
+
+        // Theme switching javascript logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+
+        // Sync icons representation
+        function syncThemeIcons() {
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIcon.classList.add('hidden');
+            } else {
+                themeToggleLightIcon.classList.add('hidden');
+                themeToggleDarkIcon.classList.remove('hidden');
+            }
+        }
+        syncThemeIcons();
+
+        themeToggleBtn.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            syncThemeIcons();
+        });
+    </script>
+</body>
+</html>

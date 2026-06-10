@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}{% if object %}Edit{% else %}Register{% endif %} Student - CampusCore{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto space-y-6">
+    <!-- Back Header -->
+    <div class="flex items-center justify-between">
+        <a href="{% url 'admin_student_list' %}" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-indigo-600 font-semibold transition duration-150">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>Back to Directory</span>
+        </a>
+        <h1 class="text-xl font-bold text-zinc-900 dark:text-white">
+            {% if object %}Edit Student Profile{% else %}Register New Student{% endif %}
+        </h1>
+    </div>
+
+    <!-- Form Panel Card -->
+    <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-sm">
+        
+        <!-- General errors -->
+        {% if form.non_field_errors %}
+        <div class="mb-6 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 text-red-800 dark:text-red-400 p-4 rounded-xl text-sm space-y-1">
+            {% for error in form.non_field_errors %}
+            <p class="font-semibold">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {% for field in form %}
+                <div class="space-y-1.5 {% if field.name == 'address' %}sm:col-span-2{% endif %}">
+                    <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-zinc-700 dark:text-zinc-350">
+                        {{ field.label }}
+                        {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                    </label>
+                    
+                    {{ field }}
+                    
+                    <!-- Help message -->
+                    {% if field.help_text %}
+                    <p class="text-[11px] text-zinc-400 dark:text-zinc-500">{{ field.help_text }}</p>
+                    {% endif %}
+
+                    <!-- Field specific errors -->
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                        <p class="text-xs text-red-500 font-bold flex items-center gap-1">
+                            <i data-lucide="alert-circle" class="w-3.5 h-3.5 flex-shrink-0"></i>
+                            <span>{{ error }}</span>
+                        </p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Action buttons -->
+            <div class="pt-6 border-t border-zinc-150 dark:border-zinc-800/60 flex items-center justify-end gap-3">
+                <a href="{% url 'admin_student_list' %}" class="px-5 py-2.5 rounded-xl text-sm font-semibold border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-850 text-zinc-700 dark:text-zinc-300 transition duration-150">
+                    Cancel
+                </a>
+                <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-700 text-white rounded-xl text-sm font-bold shadow hover:shadow-violet-600/10 active:scale-[0.98] transition duration-200 cursor-pointer">
+                    {% if object %}Update Profile{% else %}Save Registration{% endif %}
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}
