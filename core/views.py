@@ -194,6 +194,8 @@ class AdminDashboardView(AdminRequiredMixin, TemplateView):
         context['fee_due'] = due
         context['fee_paid'] = paid
         context['fee_pending'] = due - paid
+        fee_pct = (paid / due * 100) if due > 0 else 0
+        context['fee_pct'] = round(fee_pct, 1)
 
         # Attendance Aggregation
         att_summary = Attendance.objects.aggregate(total=Count('id'), present=Count('id', filter=Q(status='Present')))
@@ -269,6 +271,8 @@ class AdminStudentCreateView(AdminRequiredMixin, SuccessMessageMixin, CreateView
 
     def form_valid(self, form):
         student = form.save(commit=False)
+        if not student.roll_number:
+            student.roll_number = Student.generate_next_roll_number(student.course, student.admission_year)
         username = student.roll_number
         password = form.cleaned_data.get('password') or "Student@123"
         django_user = User.objects.create_user(
@@ -303,6 +307,8 @@ class AdminStudentUpdateView(AdminRequiredMixin, SuccessMessageMixin, UpdateView
                 django_user.set_password(password)
             django_user.save()
         else:
+            if not student.roll_number:
+                student.roll_number = Student.generate_next_roll_number(student.course, student.admission_year)
             username = student.roll_number
             default_pwd = password or "Student@123"
             django_user = User.objects.create_user(

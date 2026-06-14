@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -45,7 +46,8 @@ class Student(models.Model):
         ('Other', 'Other')
     ]
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile', null=True, blank=True)
-    roll_number = models.CharField(max_length=50, unique=True)
+    roll_number = models.CharField(max_length=50, unique=True, blank=True)
+    admission_year = models.IntegerField(default=datetime.date.today().year)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
@@ -60,6 +62,58 @@ class Student(models.Model):
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+    @classmethod
+    def generate_next_roll_number(cls, course, admission_year):
+        if not course:
+            raise ValueError("Course must be specified to generate a roll number.")
+        if not admission_year:
+            admission_year = datetime.date.today().year
+            
+        college_code = "0975"
+        dept_code = course.code.upper().strip()
+        mapping = {
+            'CSE': 'CS',
+            'CS': 'CS',
+            'ME': 'ME',
+            'MECH': 'ME',
+            'CE': 'CE',
+            'CIVIL': 'CE',
+            'EE': 'EE',
+            'ELECTRICAL': 'EE',
+            'EC': 'EC',
+            'ECE': 'EC',
+            'IT': 'IT',
+            'AI': 'AI',
+            'AIDS': 'AI',
+        }
+        dept_code = mapping.get(dept_code, dept_code[:2])
+        year_str = str(admission_year)[-2:]
+        prefix = f"{college_code}{dept_code}{year_str}"
+        
+        siblings = cls.objects.filter(roll_number__startswith=prefix)
+        max_serial = 1000
+        for sibling in siblings:
+            roll = sibling.roll_number
+            serial_part = roll[len(prefix):]
+            if serial_part.isdigit():
+                val = int(serial_part)
+                if val > max_serial:
+                    max_serial = val
+                    
+        next_serial = max_serial + 1
+        
+        # Ensure uniqueness
+        while True:
+            candidate = f"{prefix}{next_serial}"
+            if not cls.objects.filter(roll_number=candidate).exists():
+                return candidate
+            next_serial += 1
+
+    def save(self, *args, **kwargs):
+        if not self.roll_number:
+            self.roll_number = Student.generate_next_roll_number(self.course, self.admission_year)
+        super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         if self.user:

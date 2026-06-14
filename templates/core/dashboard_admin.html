@@ -98,7 +98,7 @@
                         <span class="text-emerald-600 dark:text-emerald-400">&#8377; {{ fee_paid }}</span>
                     </div>
                     <div class="w-full bg-zinc-100 dark:bg-zinc-850 h-2 rounded-full overflow-hidden">
-                        <div class="h-full bg-emerald-500 rounded-full" style="width: {% if fee_due %}{{ fee_paid|filesizeformat }}{% else %}0{% endif %}%"></div>
+                        <div class="h-full bg-emerald-500 rounded-full" style="width: {{ fee_pct }}%"></div>
                     </div>
                 </div>
 

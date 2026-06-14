@@ -60,15 +60,28 @@ class StudentForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = Student
         fields = [
-            'roll_number', 'first_name', 'last_name', 'email', 
+            'roll_number', 'admission_year', 'first_name', 'last_name', 'email', 
             'phone', 'gender', 'dob', 'address', 'course', 'profile_pic', 'password'
         ]
         widgets = {
             'dob': forms.DateInput(),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['roll_number'].required = False
+        
+        if not self.instance.pk:
+            self.fields['roll_number'].widget.attrs['placeholder'] = 'Auto-generated on save'
+            self.fields['roll_number'].widget.attrs['readonly'] = True
+        else:
+            self.fields['roll_number'].widget.attrs['readonly'] = True
+            self.fields['roll_number'].widget.attrs['class'] = self.fields['roll_number'].widget.attrs.get('class', '') + ' bg-zinc-150 dark:bg-zinc-800/80 cursor-not-allowed'
+
     def clean_roll_number(self):
         roll_number = self.cleaned_data.get('roll_number')
+        if not roll_number:
+            return ''
         if Student.objects.filter(roll_number=roll_number).exclude(pk=self.instance.pk).exists():
             raise forms.ValidationError("A student with this roll number already exists.")
         return roll_number
