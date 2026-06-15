@@ -7,13 +7,11 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-3xl font-extrabold text-zinc-955 dark:text-white tracking-tight">Admin Dashboard</h1>
-            <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">CampusCore Admin &bull; System Monitoring &
-                Analytics</p>
+            <p class="text-sm text-zinc-550 dark:text-zinc-400 mt-1">CampusCore Admin &bull; System Monitoring & Analytics</p>
         </div>
         <div class="flex items-center gap-2">
-            <span class="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-            <span class="text-xs text-zinc-500 dark:text-zinc-400 font-semibold uppercase tracking-wider">Database
-                Online</span>
+            <span class="inline-flex h-2.5 w-2.5 rounded-full bg-blue-600 animate-ping"></span>
+            <span class="text-xs text-zinc-550 dark:text-zinc-400 font-semibold uppercase tracking-wider">Database Online</span>
         </div>
     </div>
 
@@ -21,76 +19,72 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Students -->
         <div
-            class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm flex items-center justify-between hover:shadow-md hover:border-indigo-500/20 transition duration-200">
+            class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm flex items-center justify-between hover:shadow-md hover:border-blue-500/20 transition duration-200">
             <div class="space-y-2">
-                <span class="text-xs font-bold text-zinc-400 dark:text-zinc-550 uppercase tracking-widest">Total
-                    Students</span>
+                <span class="text-xs font-bold text-zinc-400 dark:text-zinc-550 uppercase tracking-widest">Total Students</span>
                 <p class="text-3xl font-extrabold text-zinc-955 dark:text-white">{{ total_students }}</p>
                 <a href="{% url 'admin_student_list' %}"
-                    class="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 mt-1 transition duration-150">
+                    class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 mt-1 transition duration-150">
                     <span>Manage directory</span>
                     <i data-lucide="arrow-right" class="w-3 h-3"></i>
                 </a>
             </div>
             <div
-                class="bg-indigo-50 text-indigo-600 dark:bg-indigo-950/30 dark:text-indigo-400 p-4 rounded-2xl shadow-sm shadow-indigo-500/5">
+                class="bg-blue-50 text-blue-600 dark:bg-blue-950/30 dark:text-blue-400 p-4 rounded-2xl">
                 <i data-lucide="users" class="w-6 h-6"></i>
             </div>
         </div>
 
         <!-- Teachers -->
         <div
-            class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm flex items-center justify-between hover:shadow-md hover:border-indigo-500/20 transition duration-200">
+            class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm flex items-center justify-between hover:shadow-md hover:border-blue-500/20 transition duration-200">
             <div class="space-y-2">
-                <span class="text-xs font-bold text-zinc-400 dark:text-zinc-550 uppercase tracking-widest">Faculty
-                    Members</span>
+                <span class="text-xs font-bold text-zinc-400 dark:text-zinc-550 uppercase tracking-widest">Faculty Members</span>
                 <p class="text-3xl font-extrabold text-zinc-955 dark:text-white">{{ total_teachers }}</p>
                 <a href="{% url 'admin_teacher_list' %}"
-                    class="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 mt-1 transition duration-150">
+                    class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 mt-1 transition duration-150">
                     <span>Faculty registry</span>
                     <i data-lucide="arrow-right" class="w-3 h-3"></i>
                 </a>
             </div>
             <div
-                class="bg-violet-50 text-violet-600 dark:bg-violet-950/30 dark:text-violet-400 p-4 rounded-2xl shadow-sm shadow-violet-500/5">
+                class="bg-blue-50 text-blue-600 dark:bg-blue-950/30 dark:text-blue-400 p-4 rounded-2xl">
                 <i data-lucide="user-cog" class="w-6 h-6"></i>
             </div>
         </div>
 
         <!-- Courses -->
         <div
-            class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm flex items-center justify-between hover:shadow-md hover:border-indigo-500/20 transition duration-200">
+            class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm flex items-center justify-between hover:shadow-md hover:border-blue-500/20 transition duration-200">
             <div class="space-y-2">
-                <span class="text-xs font-bold text-zinc-400 dark:text-zinc-555 uppercase tracking-widest">Active
-                    Courses</span>
+                <span class="text-xs font-bold text-zinc-400 dark:text-zinc-550 uppercase tracking-widest">Active Courses</span>
                 <p class="text-3xl font-extrabold text-zinc-955 dark:text-white">{{ total_courses }}</p>
                 <a href="{% url 'admin_course_list' %}"
-                    class="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 mt-1 transition duration-150">
+                    class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 mt-1 transition duration-150">
                     <span>Curriculum list</span>
                     <i data-lucide="arrow-right" class="w-3 h-3"></i>
                 </a>
             </div>
             <div
-                class="bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400 p-4 rounded-2xl shadow-sm shadow-emerald-500/5">
+                class="bg-blue-50 text-blue-600 dark:bg-blue-950/30 dark:text-blue-400 p-4 rounded-2xl">
                 <i data-lucide="book-open" class="w-6 h-6"></i>
             </div>
         </div>
 
         <!-- Attendance Overview -->
         <div
-            class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm flex items-center justify-between hover:shadow-md hover:border-indigo-500/20 transition duration-200">
+            class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm flex items-center justify-between hover:shadow-md hover:border-blue-500/20 transition duration-200">
             <div class="space-y-2">
-                <span class="text-xs font-bold text-zinc-400 dark:text-zinc-555 uppercase tracking-widest">Attendance
-                    Rate</span>
+                <span class="text-xs font-bold text-zinc-400 dark:text-zinc-555 uppercase tracking-widest">Attendance Rate</span>
                 <p class="text-3xl font-extrabold text-zinc-955 dark:text-white">{{ attendance_rate }}%</p>
                 <a href="{% url 'admin_attendance_list' %}"
-                    class="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 mt-1 transition duration-150">
+                    class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 mt-1 transition duration-150">
                     <span>Daily reports</span>
                     <i data-lucide="arrow-right" class="w-3 h-3"></i>
                 </a>
             </div>
             <div
-                class="bg-rose-50 text-rose-600 dark:bg-rose-950/30 dark:text-rose-400 p-4 rounded-2xl shadow-sm shadow-rose-500/5">
+                class="bg-blue-50 text-blue-600 dark:bg-blue-950/30 dark:text-blue-400 p-4 rounded-2xl">
                 <i data-lucide="calendar-check" class="w-6 h-6"></i>
             </div>
         </div>
@@ -104,7 +98,7 @@
             class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col justify-between space-y-6">
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-                    <i data-lucide="wallet" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i>
+                    <i data-lucide="wallet" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
                     Fee Collection Ledger
                 </h3>
                 <span class="text-[10px] uppercase font-bold text-zinc-400">Stats</span>
@@ -114,10 +108,10 @@
                 <div>
                     <div class="flex justify-between text-xs text-zinc-500 dark:text-zinc-400 font-semibold mb-1">
                         <span>Total Paid / Received</span>
-                        <span class="text-emerald-600 dark:text-emerald-400">&#8377; {{ fee_paid }}</span>
+                        <span class="text-blue-600 dark:text-blue-400">&#8377; {{ fee_paid }}</span>
                     </div>
                     <div class="w-full bg-zinc-100 dark:bg-zinc-850 h-2 rounded-full overflow-hidden">
-                        <div class="h-full bg-emerald-500 rounded-full" style="width: {{ fee_pct }}%"></div>
+                        <div class="h-full bg-blue-600 rounded-full" style="width: {{ fee_pct }}%"></div>
                     </div>
                 </div>
 
@@ -130,7 +124,7 @@
                     <div
                         class="bg-zinc-50 dark:bg-zinc-950 p-3.5 rounded-xl border border-zinc-150 dark:border-zinc-850">
                         <span class="text-xs text-zinc-400 block mb-0.5">Outstanding Pending</span>
-                        <span class="text-sm font-extrabold text-red-500">&#8377; {{ fee_pending }}</span>
+                        <span class="text-sm font-extrabold text-zinc-900 dark:text-white">&#8377; {{ fee_pending }}</span>
                     </div>
                 </div>
             </div>
@@ -145,7 +139,7 @@
         <div
             class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm space-y-6">
             <h3 class="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-                <i data-lucide="activity" class="w-5 h-5 text-indigo-650 dark:text-indigo-400"></i>
+                <i data-lucide="activity" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
                 Recent Activities
             </h3>
 
@@ -153,7 +147,7 @@
                 {% if recent_activities %}
                 {% for act in recent_activities %}
                 <div class="flex items-start gap-3 text-sm">
-                    <div class="{{ act.bg }} p-2 rounded-xl flex-shrink-0">
+                    <div class="p-2 rounded-xl flex-shrink-0 bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400">
                         <i data-lucide="{{ act.icon }}" class="w-4 h-4"></i>
                     </div>
                     <div class="flex-1 space-y-0.5 min-w-0">
@@ -173,11 +167,11 @@
             class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm space-y-6">
             <div class="flex justify-between items-center">
                 <h3 class="text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-                    <i data-lucide="megaphone" class="w-5 h-5 text-indigo-650 dark:text-indigo-400"></i>
+                    <i data-lucide="megaphone" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
                     Announcements
                 </h3>
                 <a href="{% url 'admin_notice_add' %}"
-                    class="bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 p-1.5 rounded-lg hover:bg-indigo-100 transition duration-150">
+                    class="bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 p-1.5 rounded-lg hover:bg-blue-100 transition duration-150">
                     <i data-lucide="plus" class="w-4.5 h-4.5"></i>
                 </a>
             </div>
@@ -185,7 +179,7 @@
             <div class="space-y-3.5 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
                 {% if recent_notices %}
                 {% for n in recent_notices %}
-                <div class="text-xs border-l-2 border-indigo-500 pl-3.5 space-y-1">
+                <div class="text-xs border-l-2 border-blue-600 pl-3.5 space-y-1">
                     <p class="font-bold text-zinc-800 dark:text-zinc-250">{{ n.title }}</p>
                     <p class="text-zinc-500 dark:text-zinc-400 truncate">{{ n.content }}</p>
                     <span class="text-[10px] text-zinc-400 font-mono">{{ n.created_at|date:"M d, Y" }}</span>

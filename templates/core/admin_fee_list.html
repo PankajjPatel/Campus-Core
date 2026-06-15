@@ -8,7 +8,7 @@
             <h1 class="text-2xl font-extrabold text-zinc-950 dark:text-white">Fee Accounts</h1>
             <p class="text-xs text-zinc-400">Track and manage student fee invoices and logs</p>
         </div>
-        <a href="{% url 'admin_fee_add' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-700 text-white rounded-xl font-bold text-sm shadow hover:shadow-violet-600/10 transition duration-200">
+        <a href="{% url 'admin_fee_add' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm shadow  transition duration-200">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Create Invoice</span>
         </a>
@@ -21,11 +21,11 @@
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-zinc-400">
                     <i data-lucide="search" class="w-4 h-4"></i>
                 </div>
-                <input type="text" name="search" value="{{ request.GET.search }}" class="w-full pl-9 pr-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:ring-indigo-600" placeholder="Student name...">
+                <input type="text" name="search" value="{{ request.GET.search }}" class="w-full pl-9 pr-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:ring-blue-600" placeholder="Student name...">
             </div>
             
             <div>
-                <select name="status" onchange="this.form.submit()" class="px-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:ring-indigo-600 cursor-pointer">
+                <select name="status" onchange="this.form.submit()" class="px-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:ring-blue-600 cursor-pointer">
                     <option value="">All Statuses</option>
                     <option value="Paid" {% if request.GET.status == 'Paid' %}selected{% endif %}>Paid</option>
                     <option value="Partial" {% if request.GET.status == 'Partial' %}selected{% endif %}>Partial</option>
@@ -69,14 +69,14 @@
                             <td class="px-6 py-4 text-emerald-600 font-semibold">&#8377; {{ fee.amount_paid }}</td>
                             <td class="px-6 py-4 text-zinc-500">&#8377; {{ fee.remaining_amount }}</td>
                             <td class="px-6 py-4">
-                                <span class="px-2.5 py-1 text-xs font-extrabold rounded-lg {% if fee.status == 'Paid' %}bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400{% elif fee.status == 'Partial' %}bg-indigo-50 text-indigo-800 dark:bg-indigo-950/30 dark:text-indigo-400{% else %}bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400{% endif %}">
+                                <span class="px-2.5 py-1 text-xs font-extrabold rounded-lg {% if fee.status == 'Paid' %}bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400{% elif fee.status == 'Partial' %}bg-blue-50 text-blue-800 dark:bg-blue-950/30 dark:text-blue-400{% else %}bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400{% endif %}">
                                     {{ fee.status }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 font-mono">{{ fee.due_date|date:"Y-m-d" }}</td>
                             <td class="px-6 py-4 text-center">
                                 <div class="flex items-center justify-center gap-2">
-                                    <a href="{% url 'admin_fee_edit' fee.id %}" title="Edit Invoice" class="p-2 border border-zinc-205 hover:border-indigo-500/30 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 rounded-lg transition duration-150">
+                                    <a href="{% url 'admin_fee_edit' fee.id %}" title="Edit Invoice" class="p-2 border border-zinc-205 hover:border-blue-500/30 hover:bg-blue-50 dark:hover:bg-blue-950/20 text-blue-600 dark:text-blue-400 rounded-lg transition duration-150">
                                         <i data-lucide="edit-3" class="w-4 h-4"></i>
                                     </a>
                                     <form method="POST" action="{% url 'admin_fee_delete' fee.id %}" class="inline-block" onsubmit="return confirm('Wipe fee invoice?')">

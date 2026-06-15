@@ -9,7 +9,7 @@
             <h1 class="text-2xl font-extrabold text-zinc-950 dark:text-white">Student Enrollment Directory</h1>
             <p class="text-xs text-zinc-400">Total: {{ page_obj.paginator.count }} students enrolled</p>
         </div>
-        <a href="{% url 'admin_student_add' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-700 text-white rounded-xl font-bold text-sm shadow hover:shadow-violet-600/10 active:scale-[0.98] transition duration-200">
+        <a href="{% url 'admin_student_add' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm shadow  active:scale-[0.98] transition duration-200">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Register Student</span>
         </a>
@@ -22,11 +22,11 @@
                 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400">
                     <i data-lucide="search" class="w-4 h-4"></i>
                 </div>
-                <input type="text" name="search" value="{{ request.GET.search }}" class="w-full pl-10 pr-4 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Search by name, roll, or email...">
+                <input type="text" name="search" value="{{ request.GET.search }}" class="w-full pl-10 pr-4 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Search by name, roll, or email...">
             </div>
             
             <div class="w-full sm:w-48">
-                <select name="course" onchange="this.form.submit()" class="w-full px-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 cursor-pointer">
+                <select name="course" onchange="this.form.submit()" class="w-full px-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 cursor-pointer">
                     <option value="">All Courses</option>
                     {% for course in courses %}
                     <option value="{{ course.id }}" {% if request.GET.course == course.id|stringformat:"i" %}selected{% endif %}>{{ course.code }}</option>
@@ -80,7 +80,7 @@
                             </td>
                             <td class="px-6 py-4 font-mono font-semibold text-zinc-900 dark:text-white">{{ student.roll_number }}</td>
                             <td class="px-6 py-4">
-                                <span class="px-2 py-0.5 text-xs font-bold text-indigo-750 bg-indigo-50 dark:bg-indigo-950/30 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-900/30 rounded">
+                                <span class="px-2 py-0.5 text-xs font-bold text-blue-700 bg-blue-50 dark:bg-blue-950/30 dark:text-blue-400 border border-blue-200 dark:border-blue-900/30 rounded">
                                     {{ student.course.code }}
                                 </span>
                             </td>
@@ -91,10 +91,10 @@
                             <!-- Actions -->
                             <td class="px-6 py-4 text-center">
                                 <div class="flex items-center justify-center gap-2">
-                                    <a href="{% url 'export_student_pdf' student.id %}" title="Download Report Card PDF" class="p-2 border border-zinc-200 dark:border-zinc-800 hover:border-indigo-600/30 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 text-indigo-750 rounded-lg transition duration-150">
+                                    <a href="{% url 'export_student_pdf' student.id %}" title="Download Report Card PDF" class="p-2 border border-zinc-200 dark:border-zinc-800 hover:border-blue-600/30 hover:bg-blue-50 dark:hover:bg-blue-950/20 text-blue-700 rounded-lg transition duration-150">
                                         <i data-lucide="file-down" class="w-4 h-4"></i>
                                     </a>
-                                    <a href="{% url 'admin_student_edit' student.id %}" title="Edit Profile" class="p-2 border border-zinc-200 dark:border-zinc-800 hover:border-indigo-500/30 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 text-indigo-600 dark:text-indigo-400 rounded-lg transition duration-150">
+                                    <a href="{% url 'admin_student_edit' student.id %}" title="Edit Profile" class="p-2 border border-zinc-200 dark:border-zinc-800 hover:border-blue-500/30 hover:bg-blue-50 dark:hover:bg-blue-950/20 text-blue-600 dark:text-blue-400 rounded-lg transition duration-150">
                                         <i data-lucide="edit-3" class="w-4 h-4"></i>
                                     </a>
                                     

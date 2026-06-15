@@ -17,7 +17,7 @@
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-zinc-400">
                     <i data-lucide="search" class="w-4 h-4"></i>
                 </div>
-                <input type="text" name="search" value="{{ request.GET.search }}" class="w-full pl-9 pr-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:ring-indigo-600" placeholder="Search by name or roll number...">
+                <input type="text" name="search" value="{{ request.GET.search }}" class="w-full pl-9 pr-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:ring-blue-600" placeholder="Search by name or roll number...">
             </div>
             <button type="submit" class="px-4 py-2 bg-zinc-900 text-white dark:bg-white dark:text-zinc-950 rounded-xl text-sm font-semibold hover:bg-zinc-850">Apply</button>
             {% if request.GET.search %}
@@ -59,7 +59,7 @@
                             </td>
                             <td class="px-6 py-4 font-mono font-semibold text-zinc-900 dark:text-white">{{ student.roll_number }}</td>
                             <td class="px-6 py-4">
-                                <span class="px-2.5 py-0.5 text-xs font-bold text-indigo-750 bg-indigo-50 dark:bg-indigo-950/30 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-900/30 rounded">
+                                <span class="px-2.5 py-0.5 text-xs font-bold text-blue-700 bg-blue-50 dark:bg-blue-950/30 dark:text-blue-400 border border-blue-200 dark:border-blue-900/30 rounded">
                                     {{ student.course.code }}
                                 </span>
                             </td>

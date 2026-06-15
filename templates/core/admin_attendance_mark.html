@@ -4,7 +4,7 @@
 {% block content %}
 <div class="max-w-4xl mx-auto space-y-6">
     <div class="flex items-center justify-between">
-        <a href="{% url 'admin_attendance_list' %}" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-indigo-600 font-semibold transition duration-150">
+        <a href="{% url 'admin_attendance_list' %}" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-blue-600 font-semibold transition duration-150">
             <i data-lucide="arrow-left" class="w-4 h-4"></i>
             <span>Back to Logs</span>
         </a>
@@ -16,7 +16,7 @@
         <form method="GET" class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
             <div class="space-y-1.5">
                 <label class="block text-xs font-bold text-zinc-400 uppercase">Select Subject</label>
-                <select name="subject" required class="w-full px-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:ring-indigo-600 cursor-pointer">
+                <select name="subject" required class="w-full px-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:ring-blue-600 cursor-pointer">
                     <option value="">-- Choose Subject --</option>
                     {% for sub in subjects %}
                     <option value="{{ sub.id }}" {% if selected_subject.id == sub.id %}selected{% endif %}>{{ sub.name }} ({{ sub.course.code }})</option>
@@ -26,7 +26,7 @@
             
             <div class="space-y-1.5">
                 <label class="block text-xs font-bold text-zinc-400 uppercase">Date of Record</label>
-                <input type="date" name="date" value="{{ date }}" class="w-full px-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:ring-indigo-600">
+                <input type="date" name="date" value="{{ date }}" class="w-full px-3 py-2 border border-zinc-200 dark:border-zinc-850 rounded-xl bg-zinc-50 dark:bg-zinc-950 text-sm focus:ring-blue-600">
             </div>
 
             <button type="submit" class="w-full py-2 bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 rounded-xl text-sm font-bold hover:bg-zinc-850 transition duration-150 cursor-pointer">
@@ -100,7 +100,7 @@
                 <a href="{% url 'admin_attendance_list' %}" class="px-5 py-2 rounded-xl text-xs font-semibold border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 text-zinc-700 dark:text-zinc-350">
                     Cancel
                 </a>
-                <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-700 text-white rounded-xl text-xs font-bold shadow hover:shadow-violet-600/10 active:scale-[0.98] transition duration-200 cursor-pointer">
+                <button type="submit" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow  active:scale-[0.98] transition duration-200 cursor-pointer">
                     Submit Attendance Sheet
                 </button>
             </div>

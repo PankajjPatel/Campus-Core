@@ -7,7 +7,7 @@
         
         <!-- Heading Header -->
         <div class="text-center">
-            <div class="inline-flex bg-gradient-to-tr from-indigo-600 to-violet-600 text-white p-3.5 rounded-2xl shadow-lg shadow-indigo-500/10 mb-4">
+            <div class="inline-flex bg-blue-600 text-white p-3.5 rounded-2xl mb-4">
                 <i data-lucide="shield-check" class="w-8 h-8"></i>
             </div>
             <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-955 dark:text-white">
@@ -63,7 +63,7 @@
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400 dark:text-zinc-500">
                             <i data-lucide="user" class="w-4 h-4"></i>
                         </div>
-                        <input id="id_username" name="username" type="text" required class="block w-full pl-10 pr-4 py-2.5 sm:py-3 border border-zinc-300 dark:border-zinc-700 rounded-xl bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-650 focus:border-indigo-650 transition duration-200" placeholder="Enter username">
+                        <input id="id_username" name="username" type="text" required class="block w-full pl-10 pr-4 py-2.5 sm:py-3 border border-zinc-300 dark:border-zinc-700 rounded-xl bg-white dark:bg-zinc-800 text-zinc-955 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition duration-200" placeholder="Enter username">
                     </div>
                 </div>
 
@@ -76,7 +76,7 @@
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400 dark:text-zinc-500">
                             <i data-lucide="lock" class="w-4 h-4"></i>
                         </div>
-                        <input id="id_password" name="password" type="password" required class="block w-full pl-10 pr-10 py-2.5 sm:py-3 border border-zinc-300 dark:border-zinc-700 rounded-xl bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-650 focus:border-indigo-650 transition duration-200" placeholder="••••••••">
+                        <input id="id_password" name="password" type="password" required class="block w-full pl-10 pr-10 py-2.5 sm:py-3 border border-zinc-300 dark:border-zinc-700 rounded-xl bg-white dark:bg-zinc-800 text-zinc-955 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition duration-200" placeholder="••••••••">
                         <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-400 dark:text-zinc-500 hover:text-zinc-650 dark:hover:text-zinc-300 focus:outline-none">
                             <i data-lucide="eye" class="w-4 h-4" id="eye-icon"></i>
                         </button>
@@ -86,7 +86,7 @@
 
             <!-- Submit Button -->
             <div>
-                <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl text-sm font-bold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-650 transition duration-200 cursor-pointer">
+                <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition duration-200 cursor-pointer">
                     Sign In to Dashboard
                 </button>
             </div>
@@ -138,7 +138,7 @@
                 const tab = tabs[key];
                 if (key === role) {
                     // Active style
-                    tab.className = "role-tab flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg text-xs font-extrabold bg-white dark:bg-zinc-700 text-indigo-600 dark:text-white shadow-sm border border-zinc-200 dark:border-zinc-700 transition duration-200 cursor-pointer";
+                    tab.className = "role-tab flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg text-xs font-extrabold bg-blue-600 text-white shadow-sm border border-blue-600 transition duration-200 cursor-pointer";
                 } else {
                     // Inactive style
                     tab.className = "role-tab flex flex-col sm:flex-row items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg text-xs font-bold text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition duration-200 cursor-pointer border border-transparent";
