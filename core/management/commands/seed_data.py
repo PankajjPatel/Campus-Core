@@ -9,6 +9,10 @@ class Command(BaseCommand):
     help = "Seeds the database with administrative and 500+ realistic Indian student records and histories."
 
     def handle(self, *args, **kwargs):
+        if Student.objects.exists():
+            self.stdout.write(self.style.WARNING("Student records already exist in the database. Skipping database seeding to preserve existing data."))
+            return
+
         self.stdout.write(self.style.WARNING("Starting database seeding process..."))
 
         # 1. Setup default Admin account
