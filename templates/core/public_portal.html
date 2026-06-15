@@ -12,7 +12,7 @@
             <p class="text-lg sm:text-xl font-medium text-blue-500">
                 The Core of Campus Management
             </p>
-            <p class="text-base sm:text-lg text-zinc-300 leading-relaxed font-light">
+            <p class="text-base sm:text-lg text-zinc-750 dark:text-zinc-400 leading-relaxed font-light">
                 Empowering educational institutions with seamless administration, unified workflows, and modern analytics in a single secure workspace.
             </p>
             
@@ -42,7 +42,7 @@
                     <i data-lucide="megaphone" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
                     <h2 class="text-2xl font-bold text-zinc-900 dark:text-white">Active Announcements</h2>
                 </div>
-                <span class="text-xs text-zinc-550 dark:text-zinc-400 font-medium">Showing latest bulletins</span>
+                <span class="text-xs text-zinc-750 dark:text-zinc-400 font-medium">Showing latest bulletins</span>
             </div>
             
             <div class="space-y-4">
@@ -58,13 +58,13 @@
                                 <p class="text-zinc-600 dark:text-zinc-350 text-sm leading-relaxed">{{ notice.content }}</p>
                             </div>
                         </div>
-                        <div class="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800/60 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
+                        <div class="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800/60 flex items-center justify-between text-xs text-zinc-750 dark:text-zinc-400">
                             <span class="flex items-center gap-1.5">
-                                <i data-lucide="user" class="w-3.5 h-3.5 text-zinc-400"></i>
+                                <i data-lucide="user" class="w-3.5 h-3.5 text-zinc-750 dark:text-zinc-400"></i>
                                 Posted by: {% if notice.created_by.is_superuser %}Administrator{% else %}{{ notice.created_by.get_full_name }}{% endif %}
                             </span>
                             <span class="flex items-center gap-1.5">
-                                <i data-lucide="calendar" class="w-3.5 h-3.5 text-zinc-400"></i>
+                                <i data-lucide="calendar" class="w-3.5 h-3.5 text-zinc-750 dark:text-zinc-400"></i>
                                 {{ notice.created_at|date:"M d, Y, h:i A" }}
                             </span>
                         </div>
@@ -72,9 +72,9 @@
                     {% endfor %}
                 {% else %}
                     <div class="text-center py-12 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
-                        <i data-lucide="inbox" class="w-12 h-12 text-zinc-400 mx-auto mb-3"></i>
+                        <i data-lucide="inbox" class="w-12 h-12 text-zinc-750 dark:text-zinc-400 mx-auto mb-3"></i>
                         <p class="font-bold text-zinc-700 dark:text-zinc-350">No announcements yet</p>
-                        <p class="text-zinc-500 dark:text-zinc-400 text-sm mt-1">Check back later for school updates.</p>
+                        <p class="text-zinc-750 dark:text-zinc-400 text-sm mt-1">Check back later for school updates.</p>
                     </div>
                 {% endif %}
             </div>
@@ -88,7 +88,7 @@
             </div>
 
             <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm space-y-4">
-                <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                <p class="text-sm text-zinc-750 dark:text-zinc-400">
                     CampusCore manages academic timetables and registers students across the following degrees:
                 </p>
                 
@@ -101,12 +101,12 @@
                             </div>
                             <div>
                                 <h4 class="text-sm font-bold text-zinc-900 dark:text-white">{{ course.name }}</h4>
-                                <p class="text-xs text-zinc-500 dark:text-zinc-400 font-mono">{{ course.code }}</p>
+                                <p class="text-xs text-zinc-750 dark:text-zinc-400 font-mono">{{ course.code }}</p>
                             </div>
                         </div>
                         {% endfor %}
                     {% else %}
-                        <p class="text-xs text-zinc-450 dark:text-zinc-500 italic">No courses registered yet in settings.</p>
+                        <p class="text-xs text-zinc-750 dark:text-zinc-500 italic">No courses registered yet in settings.</p>
                     {% endif %}
                 </div>
             </div>

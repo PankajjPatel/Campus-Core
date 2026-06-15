@@ -114,7 +114,7 @@
                             <p class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                                 {% if user.is_superuser %}Admin{% else %}{{ user.get_full_name }}{% endif %}
                             </p>
-                            <p class="text-[11px] text-zinc-500 dark:text-zinc-400">
+                            <p class="text-[11px] text-zinc-750 dark:text-zinc-400">
                                 {% if user.is_superuser %}Administrator{% elif user.teacher_profile %}Teacher Faculty{% elif user.student_profile %}Student ({{ user.student_profile.roll_number }}){% else %}User{% endif %}
                             </p>
                         </div>
@@ -143,7 +143,7 @@
             <div class="flex flex-col h-full justify-between">
                 <div class="space-y-6">
                     <div>
-                        <h3 class="px-3 text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Main Menu</h3>
+                        <h3 class="px-3 text-[10px] font-bold text-zinc-750 dark:text-zinc-500 uppercase tracking-widest">Main Menu</h3>
                         <div class="mt-2 space-y-1">
                             {% if user.is_superuser %}
                             <!-- Admin Links -->
@@ -197,7 +197,7 @@
 
                     {% if user.is_superuser or user.teacher_profile %}
                     <div>
-                        <h3 class="px-3 text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Operations</h3>
+                        <h3 class="px-3 text-[10px] font-bold text-zinc-750 dark:text-zinc-500 uppercase tracking-widest">Operations</h3>
                         <div class="mt-2 space-y-1">
                             {% if user.is_superuser %}
                             <a href="{% url 'admin_attendance_list' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 {% if 'attendance' in request.path %}bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 font-semibold{% endif %} transition duration-150">
@@ -236,8 +236,8 @@
                 </div>
                 
                 <!-- Footer sidebar info -->
-                <div class="pt-4 border-t border-zinc-200 dark:border-zinc-800 text-xs text-zinc-400 dark:text-zinc-505">
-                    <p class="font-semibold text-zinc-500 dark:text-zinc-400">CampusCore v1.0</p>
+                <div class="pt-4 border-t border-zinc-200 dark:border-zinc-800 text-xs text-zinc-750 dark:text-zinc-505">
+                    <p class="font-semibold text-zinc-750 dark:text-zinc-400">CampusCore v1.0</p>
                     <p>&copy; 2026 Admin Panel</p>
                 </div>
             </div>
@@ -253,7 +253,7 @@
             {% if messages %}
             <div class="mb-6 space-y-2">
                 {% for message in messages %}
-                <div class="flex items-center justify-between p-4 rounded-xl text-sm border {% if message.tags == 'error' %}bg-red-50 text-red-800 border-red-200 dark:bg-red-950/20 dark:text-red-400 dark:border-red-900/30{% elif message.tags == 'warning' %}bg-yellow-50 text-yellow-800 border-yellow-200 dark:bg-yellow-950/20 dark:text-yellow-400 dark:border-yellow-900/30{% else %}bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900/30{% endif %} animate-fade-in transition duration-300">
+                <div class="flex items-center justify-between p-4 rounded-xl text-sm border {% if message.tags == 'error' %}bg-red-50 text-red-800 border-red-200 dark:bg-red-950/20 dark:text-red-400 dark:border-red-900/30{% elif 'warning' %}bg-yellow-50 text-yellow-800 border-yellow-200 dark:bg-yellow-950/20 dark:text-yellow-400 dark:border-yellow-900/30{% else %}bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900/30{% endif %} animate-fade-in transition duration-300">
                     <div class="flex items-center gap-3">
                         {% if message.tags == 'error' %}
                         <i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0"></i>
@@ -264,7 +264,7 @@
                         {% endif %}
                         <span>{{ message }}</span>
                     </div>
-                    <button class="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200" onclick="this.parentElement.remove()">
+                    <button class="text-zinc-750 dark:text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200" onclick="this.parentElement.remove()">
                         <i data-lucide="x" class="w-4 h-4"></i>
                     </button>
                 </div>
@@ -281,41 +281,41 @@
     {% if user.is_authenticated %}
     <div class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-around py-3 px-2 shadow-2xl transition duration-200">
         {% if user.is_superuser %}
-        <a href="{% url 'admin_dashboard' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-blue-600">
+        <a href="{% url 'admin_dashboard' %}" class="flex flex-col items-center gap-0.5 text-zinc-750 dark:text-zinc-400 hover:text-blue-600">
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
             <span class="text-[10px]">Dashboard</span>
         </a>
-        <a href="{% url 'admin_student_list' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-blue-600">
+        <a href="{% url 'admin_student_list' %}" class="flex flex-col items-center gap-0.5 text-zinc-750 dark:text-zinc-400 hover:text-blue-600">
             <i data-lucide="users" class="w-5 h-5"></i>
             <span class="text-[10px]">Students</span>
         </a>
-        <a href="{% url 'admin_attendance_list' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-blue-600">
+        <a href="{% url 'admin_attendance_list' %}" class="flex flex-col items-center gap-0.5 text-zinc-750 dark:text-zinc-400 hover:text-blue-600">
             <i data-lucide="calendar-check" class="w-5 h-5"></i>
             <span class="text-[10px]">Attendance</span>
         </a>
-        <a href="{% url 'admin_reports' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-blue-600">
+        <a href="{% url 'admin_reports' %}" class="flex flex-col items-center gap-0.5 text-zinc-750 dark:text-zinc-400 hover:text-blue-600">
             <i data-lucide="file-text" class="w-5 h-5"></i>
             <span class="text-[10px]">Reports</span>
         </a>
         {% elif user.teacher_profile %}
-        <a href="{% url 'teacher_dashboard' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-blue-600">
+        <a href="{% url 'teacher_dashboard' %}" class="flex flex-col items-center gap-0.5 text-zinc-750 dark:text-zinc-400 hover:text-blue-600">
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
             <span class="text-[10px]">Dashboard</span>
         </a>
-        <a href="{% url 'teacher_subject_list' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-blue-600">
+        <a href="{% url 'teacher_subject_list' %}" class="flex flex-col items-center gap-0.5 text-zinc-750 dark:text-zinc-400 hover:text-blue-600">
             <i data-lucide="book-marked" class="w-5 h-5"></i>
             <span class="text-[10px]">Subjects</span>
         </a>
-        <a href="{% url 'teacher_student_list' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-blue-600">
+        <a href="{% url 'teacher_student_list' %}" class="flex flex-col items-center gap-0.5 text-zinc-750 dark:text-zinc-400 hover:text-blue-600">
             <i data-lucide="users" class="w-5 h-5"></i>
             <span class="text-[10px]">Students</span>
         </a>
         {% elif user.student_profile %}
-        <a href="{% url 'student_dashboard' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-blue-600">
+        <a href="{% url 'student_dashboard' %}" class="flex flex-col items-center gap-0.5 text-zinc-750 dark:text-zinc-400 hover:text-blue-600">
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
             <span class="text-[10px]">Dashboard</span>
         </a>
-        <a href="{% url 'password_change' %}" class="flex flex-col items-center gap-0.5 text-zinc-500 dark:text-zinc-400 hover:text-blue-600">
+        <a href="{% url 'password_change' %}" class="flex flex-col items-center gap-0.5 text-zinc-750 dark:text-zinc-400 hover:text-blue-600">
             <i data-lucide="key" class="w-5 h-5"></i>
             <span class="text-[10px]">Password</span>
         </a>

@@ -6,9 +6,9 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-2xl font-extrabold text-zinc-950 dark:text-white">Announcements</h1>
-            <p class="text-xs text-zinc-400">Post announcements and bulletins to your assigned class courses</p>
+            <p class="text-xs text-zinc-750 dark:text-zinc-400">Post announcements and bulletins to your assigned class courses</p>
         </div>
-        <a href="{% url 'teacher_notice_add' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm shadow  transition duration-200">
+        <a href="{% url 'teacher_notice_add' %}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm shadow transition duration-200">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Publish Announcement</span>
         </a>
@@ -29,7 +29,7 @@
                     <p class="text-zinc-650 dark:text-zinc-350 text-sm leading-relaxed">{{ n.content }}</p>
                 </div>
                 
-                <div class="pt-4 border-t border-zinc-100 dark:border-zinc-850 flex items-center justify-between text-xs text-zinc-400">
+                <div class="pt-4 border-t border-zinc-100 dark:border-zinc-850 flex items-center justify-between text-xs text-zinc-750 dark:text-zinc-400">
                     <span class="flex items-center gap-1"><i data-lucide="user" class="w-3.5 h-3.5"></i> You (@{{ n.created_by.username }})</span>
                     <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> {{ n.created_at|date:"M d, Y, h:i A" }}</span>
                 </div>
@@ -37,9 +37,9 @@
             {% endfor %}
         {% else %}
             <div class="text-center py-16 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-855 rounded-2xl">
-                <i data-lucide="megaphone" class="w-12 h-12 text-zinc-400 mx-auto mb-3"></i>
+                <i data-lucide="megaphone" class="w-12 h-12 text-zinc-750 dark:text-zinc-400 mx-auto mb-3"></i>
                 <p class="font-bold text-zinc-700 dark:text-zinc-350">No bulletins posted</p>
-                <p class="text-zinc-505 dark:text-zinc-400 text-xs mt-1">Publish an academic announcement for your courses.</p>
+                <p class="text-zinc-750 dark:text-zinc-400 text-xs mt-1">Publish an academic announcement for your courses.</p>
             </div>
         {% endif %}
     </div>

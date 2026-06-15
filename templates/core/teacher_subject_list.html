@@ -5,7 +5,7 @@
 <div class="space-y-6">
     <div>
         <h1 class="text-2xl font-extrabold text-zinc-950 dark:text-white">My Assigned Subjects</h1>
-        <p class="text-xs text-zinc-400">Manage daily attendance registries and uploads marks schedules</p>
+        <p class="text-xs text-zinc-750 dark:text-zinc-400">Manage daily attendance registries and uploads marks schedules</p>
     </div>
 
     <!-- Subjects grid -->
@@ -18,7 +18,7 @@
                         {{ subject.course.code }}
                     </span>
                     <h3 class="text-lg font-bold text-zinc-900 dark:text-white">{{ subject.name }}</h3>
-                    <p class="text-xs text-zinc-450 font-mono">Code: {{ subject.code }}</p>
+                    <p class="text-xs text-zinc-750 dark:text-zinc-400 font-mono">Code: {{ subject.code }}</p>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-2 mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800/60">
@@ -35,9 +35,9 @@
             {% endfor %}
         {% else %}
             <div class="md:col-span-3 text-center py-16 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
-                <i data-lucide="book-x" class="w-12 h-12 text-zinc-400 mx-auto mb-3"></i>
+                <i data-lucide="book-x" class="w-12 h-12 text-zinc-750 dark:text-zinc-400 mx-auto mb-3"></i>
                 <p class="font-bold text-zinc-700 dark:text-zinc-350">No classes assigned</p>
-                <p class="text-zinc-500 dark:text-zinc-400 text-xs mt-1">Please ask the Administrator to link courses to your profile.</p>
+                <p class="text-zinc-750 dark:text-zinc-400 text-xs mt-1">Please ask the Administrator to link courses to your profile.</p>
             </div>
         {% endif %}
     </div>

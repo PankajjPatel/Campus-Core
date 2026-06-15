@@ -213,6 +213,7 @@ class AdminDashboardView(AdminRequiredMixin, TemplateView):
         context['recent_students'] = recent_students
         context['recent_notices'] = recent_notices
         context['recent_activities'] = self.generate_recent_activities(recent_students[:3], recent_notices[:3])
+        context['recent_fees'] = Fee.objects.select_related('student').all().order_by('-id')[:5]
 
         return context
 
