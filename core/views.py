@@ -93,12 +93,15 @@ class StudentDashboardView(StudentRequiredMixin, View):
         notices = Notice.objects.filter(Q(subject__course=student.course) | Q(subject__isnull=True)).order_by('-created_at')[:5]
 
         # Calculate attendance percentage
-        att_records = Attendance.objects.filter(student=student)
-        total_att = att_records.count()
-        present_att = att_records.filter(status='Present').count()
+        att_summary = Attendance.objects.filter(student=student).aggregate(
+            total=Count('id'),
+            present=Count('id', filter=Q(status='Present'))
+        )
+        total_att = att_summary['total'] or 0
+        present_att = att_summary['present'] or 0
         absent_att = total_att - present_att
         att_pct = (present_att / total_att * 100) if total_att > 0 else 0
-        attendance_logs = att_records.select_related('subject').order_by('-date')[:15]
+        attendance_logs = Attendance.objects.filter(student=student).select_related('subject').order_by('-date')[:15]
 
         # Calculate GPA / Percentage
         avg_marks = results.aggregate(avg=Avg('marks_obtained'))['avg'] or 0
@@ -204,16 +207,18 @@ class AdminDashboardView(AdminRequiredMixin, TemplateView):
         context['attendance_rate'] = round((present / total * 100), 1) if total > 0 else 0.0
 
         # Recent activities (new additions)
-        context['recent_students'] = Student.objects.all().order_by('-created_at')[:5]
-        context['recent_notices'] = Notice.objects.all().order_by('-created_at')[:5]
-        context['recent_activities'] = self.generate_recent_activities()
+        recent_students = list(Student.objects.all().order_by('-created_at')[:5])
+        recent_notices = list(Notice.objects.all().order_by('-created_at')[:5])
+
+        context['recent_students'] = recent_students
+        context['recent_notices'] = recent_notices
+        context['recent_activities'] = self.generate_recent_activities(recent_students[:3], recent_notices[:3])
 
         return context
 
-    def generate_recent_activities(self):
+    def generate_recent_activities(self, students, notices):
         # Gather dynamic recent occurrences
         activities = []
-        students = Student.objects.all().order_by('-created_at')[:3]
         for s in students:
             activities.append({
                 'title': f"Student Registered: {s.full_name}",
@@ -221,7 +226,6 @@ class AdminDashboardView(AdminRequiredMixin, TemplateView):
                 'icon': 'user-plus',
                 'bg': 'bg-teal-50 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400'
             })
-        notices = Notice.objects.all().order_by('-created_at')[:3]
         for n in notices:
             activities.append({
                 'title': f"Announcement: {n.title}",
