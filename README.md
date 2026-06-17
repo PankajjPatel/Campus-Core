@@ -71,7 +71,7 @@ python manage.py runserver
 ```
 Open your browser and navigate to `http://127.0.0.1:8000/`.
 
----
+---thans for watching this read.me
 
 ## 📂 Project Architecture Layout
 - **[CampusCore/settings.py](file:///c:/Users/panka/CampusCore/CampusCore/settings.py):** Main project configuration parameters (database credentials, static files, login routes).
