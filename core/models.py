@@ -3,6 +3,10 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Course(models.Model):
+    """
+    Represents an academic course (e.g. B.Tech Computer Science, B.Sc Mathematics)
+    offered by the institution. Contains associated subjects and syllabus.
+    """
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=20, unique=True)
     description = models.TextField(blank=True, default='')
@@ -13,6 +17,10 @@ class Course(models.Model):
 
 
 class Teacher(models.Model):
+    """
+    Represents a faculty member profile, linked to a Django User account.
+    Teachers are assigned to subjects, take attendance, and award marks.
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='teacher_profile')
     phone = models.CharField(max_length=15)
     address = models.TextField(blank=True, default='')
@@ -29,6 +37,10 @@ class Teacher(models.Model):
 
 
 class Subject(models.Model):
+    """
+    Represents a subject or module (e.g. Data Structures, Database Systems)
+    taught under a Course by a specific Teacher.
+    """
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=20, unique=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='subjects')
@@ -40,6 +52,10 @@ class Subject(models.Model):
 
 
 class Student(models.Model):
+    """
+    Represents a student enrolled in the institution. Linked to their roll number.
+    Contains basic demographic details and link to their optional Django User login.
+    """
     GENDER_CHOICES = [
         ('Male', 'Male'),
         ('Female', 'Female'),

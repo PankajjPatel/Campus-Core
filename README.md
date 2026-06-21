@@ -1,5 +1,12 @@
 # CampusCore - Student Management System 🎓
-> **Slogan:** The Core of Campus Management ⭐  
+
+[![GitHub stars](https://img.shields.io/github/stars/PankajjPatel/Campus-Core?style=for-the-badge&color=blue)](https://github.com/PankajjPatel/Campus-Core/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/PankajjPatel/Campus-Core?style=for-the-badge&color=teal)](https://github.com/PankajjPatel/Campus-Core/network/members)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)](https://python.org)
+[![Django](https://img.shields.io/badge/Django-6.0%2B-green?style=for-the-badge&logo=django)](https://djangoproject.com)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?style=for-the-badge&logo=mysql)](https://mysql.com)
+
+> **Slogan:** The Core of Campus Management 🏫  
 > **Tagline:** Empowering educational institutions with seamless administration, unified workflows, and modern analytics in a single secure workspace.
 
 CampusCore is a complete, production-ready Student Management System built on Python and Django using a MySQL database and custom Tailwind CSS styling. It provides robust workflows for Super Administrators and Faculty Members, alongside a public Student Portal to search timetables, announcements, and performance report cards.
@@ -7,7 +14,7 @@ CampusCore is a complete, production-ready Student Management System built on Py
 ---
 
 ## 🛠️ Tech Stack & Key Libraries
-- **Backend:** Python 3.14+ & Django 6.0+
+- **Backend:** Python 3.10+ & Django 6.0+
 - **Database:** MySQL Server 8.0 (configured with standard Django ORM & pure Python `pymysql` client)
 - **UI / UX Styling:** Tailwind CSS v3 via CDN (supporting global light & class-based dark mode) with Lucide Icons CDN.
 - **Reporting Engine:**
