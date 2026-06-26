@@ -20,7 +20,7 @@ CampusCore is a complete, production-ready Student Management System built on Py
 - **Reporting Engine:**
   - `openpyxl` (Exports student/teacher listings dynamically to Excel sheets)
   - `reportlab` (Generates academic semester report cards as PDFs)
-hi
+
 ---
 
 ## 🔑 User Authentication Credentials
