@@ -23,7 +23,7 @@ CampusCore is a complete, production-ready Student Management System built on Py
 
 ---
 
-## 🔑 User Authentication Credentials hu
+## 🔑 User Authentication Credentials
 
 ### 1. Super Administrator Account
 - **Username:** `_pankaj_09`
