@@ -6,7 +6,7 @@
 [![Django](https://img.shields.io/badge/Django-6.0%2B-green?style=for-the-badge&logo=django)](https://djangoproject.com)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?style=for-the-badge&logo=mysql)](https://mysql.com)
 
-> **Slogan:** The Core of Campus Management 🏫  
+> **Slogan:** The Core of Campus Management 🏫  hi
 > **Tagline:** Empowering educational institutions with seamless administration, unified workflows, and modern analytics in a single secure workspace.
 
 CampusCore is a complete, production-ready Student Management System built on Python and Django using a MySQL database and custom Tailwind CSS styling. It provides robust workflows for Super Administrators and Faculty Members, alongside a public Student Portal to search timetables, announcements, and performance report cards.
