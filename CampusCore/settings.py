@@ -86,7 +86,7 @@ DB_PORT = os.environ.get('DB_PORT', '3306')
 db_reachable = False
 if DB_HOST:
     try:
-        s = socket.create_connection((DB_HOST, int(DB_PORT)), timeout=2.5)
+        s = socket.create_connection((DB_HOST, int(DB_PORT)), timeout=1.0)
         s.close()
         db_reachable = True
     except Exception:
