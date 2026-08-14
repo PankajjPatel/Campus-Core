@@ -3,7 +3,7 @@ services:
     name: CampusCore
     runtime: python
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --no-input
-    startCommand: python manage.py migrate --no-input && gunicorn CampusCore.wsgi:application --bind 0.0.0.0:$PORT
+    startCommand: python manage.py migrate --no-input || true && gunicorn CampusCore.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.0

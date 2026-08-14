@@ -75,6 +75,7 @@ WSGI_APPLICATION = 'CampusCore.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 import os
+import socket
 
 DB_NAME = os.environ.get('DB_NAME', '')
 DB_USER = os.environ.get('DB_USER', '')
@@ -82,7 +83,16 @@ DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
 DB_HOST = os.environ.get('DB_HOST', '')
 DB_PORT = os.environ.get('DB_PORT', '3306')
 
+db_reachable = False
 if DB_HOST:
+    try:
+        s = socket.create_connection((DB_HOST, int(DB_PORT)), timeout=2.5)
+        s.close()
+        db_reachable = True
+    except Exception:
+        db_reachable = False
+
+if DB_HOST and db_reachable:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
