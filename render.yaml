@@ -3,7 +3,7 @@ services:
     name: CampusCore
     runtime: python
     buildCommand: ./build.sh
-    startCommand: ./start.sh
+    startCommand: gunicorn CampusCore.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.0
