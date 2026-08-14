@@ -1,7 +1,7 @@
 services:
   - type: web
     name: CampusCore
-    env: python
+    runtime: python
     buildCommand: ./build.sh
     startCommand: ./start.sh
     envVars:
